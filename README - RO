@@ -1,20 +1,33 @@
-Rolul acestui material este de a oferi informații asupra implementării unui program de (de)compresie și prelucrare a imaginilor în format PPM în limbajul C.
+Rolul acestui material este de a oferi informații asupra implementării unui program de (de)compresie și 
+prelucrare a imaginilor în format PPM în limbajul C.
 
-(!) Pentru a înțelege în detaliu modul de funcționare al programului, recomandăm coroborarea informației din Readme cu aceea din comentariile alăturate codului.
+(!) Pentru a înțelege în detaliu modul de funcționare al programului, recomandăm coroborarea informației 
+din Readme cu aceea din comentariile alăturate codului.
 
 Ideea generală:
-Toate funcționalitățile programului se bazează pe utilizarea a trei structuri de date principale: matrice „struct Matrix” pentru reținerea culorilor din imagini, informația imaginilor este ulterior transpusă, pentru o prelucrare facilă, într-un arbore cuaternar, pentru ca în final, în cazul cerinței 1 (comprimare), să utilizăm un vector „struct QuadTreeNode” pentru scrierea informației în fișier. 
-Restul cerințelor se bazează pe implementarea compresiei, nemaifiind însă necesară utilizarea vreunui vector în cazul cerinței 3 și a bonusului.
-Cerința 2 (decompresia) reprezintă, în fond, realizarea în sens invers a compresiei (există subprograme specifice, pe care le vom detalia ulterior). 
-Oglindirea imaginilor se bazează pe modificarea ordinii fiilor în cadrul arborelui cuaternar, după care determinăm matricea RGB, pe care o vom scrie într-un fișier PPM.
-Suprapunerea imaginilor presupune prelucrarea concomitentă a două rânduri de astfel structuri de date, în cazul arborilor cuaternari, obținând, prin combinarea datelor din aceștia, arborele imaginii finale.
+Toate funcționalitățile programului se bazează pe utilizarea a trei structuri de date principale: matrice 
+„struct Matrix” pentru reținerea culorilor din imagini, informația imaginilor este ulterior transpusă, 
+pentru o prelucrare facilă, într-un arbore cuaternar, pentru ca în final, în cazul cerinței 1 (comprimare), 
+să utilizăm un vector „struct QuadTreeNode” pentru scrierea informației în fișier. 
+Restul cerințelor se bazează pe implementarea compresiei, nemaifiind însă necesară utilizarea vreunui vector 
+în cazul cerinței 3 și a bonusului.
+Cerința 2 (decompresia) reprezintă, în fond, realizarea în sens invers a compresiei (există subprograme 
+specifice, pe care le vom detalia ulterior). 
+Oglindirea imaginilor se bazează pe modificarea ordinii fiilor în cadrul arborelui cuaternar, după care 
+determinăm matricea RGB, pe care o vom scrie într-un fișier PPM.
+Suprapunerea imaginilor presupune prelucrarea concomitentă a două rânduri de astfel structuri de date, în
+cazul arborilor cuaternari, obținând, prin combinarea datelor din aceștia, arborele imaginii finale.
 
 Subprogramele introduse:
-Pe lângă funcția main, am introdus subprograme comune rezolvării mai multor cerințe sau funcții specifice unei anumite funcționalități.
-Vom detalia subprogramele principale, existând, pe lângă acestea, funcții dedicate alocării sau dealocării de memorie pentru arbori (initTree, freeTree), pentru matrice (freeMatrix) etc. Astfel:
-1) Funcția createSons este cea care care creează 4 fii pentru nodul curent din arbore, utilizând culorile calculate ca medie.
+Pe lângă funcția main, am introdus subprograme comune rezolvării mai multor cerințe sau funcții specifice 
+unei anumite funcționalități.
+Vom detalia subprogramele principale, existând, pe lângă acestea, funcții dedicate alocării sau dealocării
+de memorie pentru arbori (initTree, freeTree), pentru matrice (freeMatrix) etc. Astfel:
+1) Funcția createSons este cea care care creează 4 fii pentru nodul curent din arbore, utilizând culorile 
+calculate ca medie.
 2) Funcția insert inserează informația din arbore în vectorul structură QuadTreeNode.
-3) Funcția checkndivide este una dintre cele mai importante, fiind cea în care se calculează culorile medii pe matrice și se apelează funcția de creare a fiilor.
+3) Funcția checkndivide este una dintre cele mai importante, fiind cea în care se calculează culorile medii 
+pe matrice și se apelează funcția de creare a fiilor.
 4) Funcția readMatrix, în care se citește din fișierul PPM, returnându-se matricea imagine RGB.
 5) Funcția vector gestionează crearea vectorului QuadTreeNode.
 6) Funcția save este funcția de salvare a fișierului comprimat.
@@ -24,4 +37,6 @@ Vom detalia subprogramele principale, existând, pe lângă acestea, funcții de
 10) Funcția saveComp este cea care salvează fișierul PPM rezultat în urma cerințelor 2, 3 și a bonusului.
 11) Funcția decomp, ce gestionează procesul de decompresie.
 12) Funcțiile hMirror și vMirror, de oglindire orizontală, respectiv verticală, a imaginilor.
-13) Funcția merge, care gestionează suprapunerea arborilor a două imagini, înaintând în fiecare până ajunge la frunze în ambele. Pe parcurs vom crea câte 4 fii în arborele final, în care vom reține culoarea medie din cele 2 noduri curente.
+13) Funcția merge, care gestionează suprapunerea arborilor a două imagini, înaintând în fiecare până ajunge 
+la frunze în ambele. Pe parcurs vom crea câte 4 fii în arborele final, în care vom reține culoarea medie din 
+cele 2 noduri curente.
